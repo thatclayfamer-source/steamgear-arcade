@@ -4,61 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SteamGear Arcade</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header>
-    <div class="logo">⚙ SteamGear Arcade</div>
+    <h1>SteamGear Arcade</h1>
 
-    <input id="search" placeholder="Search games...">
-
-    <!-- TABS -->
     <div class="top-buttons">
-
-        <button onclick="showAll()">All Games</button>
-        <button onclick="showFav()">Favorites ⭐</button>
-
-        <button onclick="openSubmit()">Submit Game</button>
-        <button onclick="openAdmin()">Admin</button>
-
+        <button class="top-btn" onclick="openSubmit()">
+            Submit Game
+        </button>
     </div>
 </header>
 
-<!-- GAME GRID -->
-<main id="gameGrid"></main>
+<main>
 
-<!-- GAME OVERLAY -->
-<div id="overlay" class="hidden">
-
-    <!-- small X -->
-    <div id="closeX" onclick="closeGame()">✕</div>
-
-    <!-- control bar -->
-    <div class="game-bar">
-        <button onclick="closeGame()">Exit (ESC)</button>
-        <button onclick="clearSave()">Clear Save</button>
-        <button onclick="toggleFullscreen()">Fullscreen</button>
+    <div id="gameContainer" class="game-grid">
+        <!-- Games load here from script.js -->
     </div>
 
-    <!-- GAME DISPLAY -->
-    <iframe id="gameFrame"></iframe>
+</main>
 
-</div>
+<!-- GAME OVERLAY -->
+<div id="gameOverlay">
 
-<!-- SUBMIT POPUP (placeholder system) -->
-<div id="submitBox" class="popup hidden">
-    <h2>Submit a Game</h2>
-    <input id="submitInput" placeholder="Game name or link">
-    <button onclick="submitGame()">Submit</button>
-</div>
+    <div id="closeX" onclick="closeGame()">
+        ×
+    </div>
 
-<!-- ADMIN POPUP (optional fallback if you want later UI upgrade) -->
-<div id="adminBox" class="popup hidden">
-    <h2>Admin Panel</h2>
-    <div id="adminPanel"></div>
+    <iframe
+        id="gameFrame"
+        src=""
+        frameborder="0"
+        allowfullscreen>
+    </iframe>
+
 </div>
 
 <script src="script.js"></script>
