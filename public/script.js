@@ -1,12 +1,6 @@
-const grid = document.getElementById("gameGrid");
-const overlay = document.getElementById("overlay");
-const frame = document.getElementById("gameFrame");
-
-let currentGame = null;
-let viewMode = "all"; // all | fav
-
-/* ---------------- GAMES ---------------- */
-
+// =======================
+// GAME DATA
+// =======================
 const games = [
     { name:"Cookie clicker", file:"games/cookieclicker.html" },
     { name:"Drive mad", file:"games/drivemad.html" },
@@ -33,168 +27,63 @@ const games = [
     { name:"Fire Boy and Water Girl", file:"games/fireboyandwatergirl.html" }
 ];
 
-/* ---------------- FAVORITES ---------------- */
+// =======================
+// LOAD GAME CARDS
+// =======================
+function loadGames() {
+  const container = document.getElementById("gameContainer");
 
-let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  games.forEach((game) => {
+    const card = document.createElement("div");
+    card.className = "game-card";
 
-function toggleFavorite(name){
-    if(favorites.includes(name)){
-        favorites = favorites.filter(f => f !== name);
-    } else {
-        favorites.push(name);
-    }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    render();
+    card.innerHTML = `
+      <div class="game-name">${game.name}</div>
+      <button onclick="playGame('${game.file}')">Play</button>
+    `;
+
+    container.appendChild(card);
+  });
 }
 
-function showAll(){
-    viewMode = "all";
-    render();
+// =======================
+// PLAY GAME
+// =======================
+function playGame(file) {
+  const overlay = document.getElementById("gameOverlay");
+  const frame = document.getElementById("gameFrame");
+
+  frame.src = file;
+  overlay.style.display = "flex";
 }
 
-function showFav(){
-    viewMode = "fav";
-    render();
+// =======================
+// CLOSE GAME (X BUTTON ONLY)
+// =======================
+function closeGame() {
+  const overlay = document.getElementById("gameOverlay");
+  const frame = document.getElementById("gameFrame");
+
+  frame.src = "";
+  overlay.style.display = "none";
 }
 
-/* ---------------- RENDER UI ---------------- */
-
-function render(){
-
-    grid.innerHTML = "";
-
-    let list = games;
-
-    if(viewMode === "fav"){
-        list = games.filter(g => favorites.includes(g.name));
-    }
-
-    list.forEach(g => {
-
-        const isFav = favorites.includes(g.name);
-
-        const card = document.createElement("div");
-        card.className = "game-card";
-
-        card.innerHTML = `
-            <h3>
-                ${g.name}
-                <span onclick="toggleFavorite('${g.name}')"
-                style="
-                    float:right;
-                    cursor:pointer;
-                    color:${isFav ? '#d4af37' : '#666'};
-                    font-size:18px;
-                ">
-                    ★
-                </span>
-            </h3>
-
-            <button onclick="playGame('${g.file}','${g.name}')">Play</button>
-        `;
-
-        grid.appendChild(card);
-    });
+// =======================
+// SUBMIT GAME BUTTON
+// =======================
+function openSubmit() {
+  window.open("https://forms.gle/Avpzf4uzVMt2vWQv5", "_blank");
 }
 
-render();
+// =======================
+// REMOVE ESC KEY FUNCTIONALITY (intentionally blank)
+// =======================
+// (ESC does nothing now)
 
-/* ---------------- PLAY GAME ---------------- */
-
-function playGame(file,name){
-    currentGame = name;
-    frame.src = file;
-    overlay.classList.remove("hidden");
-}
-
-function closeGame(){
-    overlay.classList.add("hidden");
-    frame.src = "";
-    currentGame = null;
-}
-
-/* ESC CLOSE */
-document.addEventListener("keydown",(e)=>{
-    if(e.key === "Escape") closeGame();
-});
-
-/* ---------------- FULLSCREEN ---------------- */
-
-function toggleFullscreen(){
-    if(!document.fullscreenElement){
-        overlay.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
-}
-
-/* ---------------- SAVE SYSTEM ---------------- */
-
-function clearSave(){
-    if(currentGame){
-        localStorage.removeItem("save_" + currentGame);
-        alert("Save cleared");
-    }
-}
-
-/* ---------------- SUBMIT GAME ---------------- */
-
-function openSubmit(){
-
-    let name = prompt("Enter game name to submit:");
-
-    if(!name) return;
-
-    fetch("/api/submit-game",{
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body:JSON.stringify({ gameName: name })
-    })
-    .then(() => {
-        alert("Game submitted!");
-    });
-}
-
-/* ---------------- ADMIN ---------------- */
-
-const ADMIN_PASSWORD = "tommy0812";
-
-async function openAdmin(){
-
-    let pass = prompt("Enter admin password:");
-
-    if(pass !== ADMIN_PASSWORD){
-        alert("Wrong password");
-        return;
-    }
-
-    const res = await fetch("/api/submissions?password=" + pass);
-    const data = await res.json();
-
-    if(!data.length){
-        alert("No submissions yet.");
-        return;
-    }
-
-    let text = "SUBMITTED GAMES:\n\n";
-
-    data.forEach(g=>{
-        text += "• " + g.game_name + "\n";
-    });
-
-    alert(text);
-}
-
-/* ---------------- GLOBAL ACCESS ---------------- */
-
-window.playGame = playGame;
-window.closeGame = closeGame;
-window.toggleFullscreen = toggleFullscreen;
-window.clearSave = clearSave;
-
-window.openSubmit = openSubmit;
-window.openAdmin = openAdmin;
-
-window.toggleFavorite = toggleFavorite;
-window.showAll = showAll;
+// =======================
+// INIT
+// =======================
+window.onload = () => {
+  loadGames();
+};
 window.showFav = showFav;
