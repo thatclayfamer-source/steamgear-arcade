@@ -12,12 +12,25 @@ const games = [
     { name:"Drive mad", file:"games/drivemad.html" },
     { name:"fnaf", file:"games/fnaf.html" },
     { name:"fnaf 2", file:"games/fnaf2.html" },
-    { name:"Geometry dash", file:"games/geometrydash.html" },
+    { name:"fnaf 3", file:"games/fnaf3.html" },
+    { name:"fnaf 4", file:"games/fnaf4.html" }, 
+    { name:"Google dino", file:"games/googledino.html" },
+    { name:"Melon playground", file:"games/melonplayground.html" },
+    { name:"Granny", file:"games/granny.html" },
+    { name:"Granny 2", file:"games/granny2.html" },
+    { name:"Level devil", file:"games/leveldevil.html" },
+    { name:"OvO", file:"games/ovo.html" },
+    { name:"Poly track", file:"games/polytrack.html" },
+    { name:"Poor bunny", file:"games/poorbunny.html" },
+    { name:"Run", file:"games/run.html" },
+    { name:"Slope", file:"games/slope.html" },
+    { name:"Tunnel rush", file:"games/tunnelrush.html" },
     { name:"Pixel speedrun", file:"games/pixelspeedrun.html" },
     { name:"PvZ", file:"games/plantsvszombies.html" },
     { name:"Tattle tail", file:"games/tattletail.html" },
     { name:"Terraria", file:"games/terraria.html" },
-    { name:"Minecraft", file:"games/tuffclient.html" }
+    { name:"Minecraft", file:"games/tuffclient.html" },
+    { name:"Fire Boy and Water Girl", file:"games/fireboyandwatergirl.html" }
 ];
 
 /* ---------------- FAVORITES ---------------- */
